@@ -1,0 +1,8 @@
+
+@use './buttons';
+
+$btn-color: buttons.$color;
+
+.my-buttoon {
+  background-color: $btn-color;
+}

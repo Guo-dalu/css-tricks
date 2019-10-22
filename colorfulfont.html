@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+
+  @keyframes rainbow-link {
+      0% {
+          color: hsl(calc(360 - var(--offset)), 60%, 50%);
+      }
+      25% {
+          color: hsl(calc(450 - var(--offset)), 60%, 50%);
+      }
+      50% {
+          color: hsl(calc(540 - var(--offset)), 60%, 50%);
+      }
+      75% {
+          color: hsl(calc(630 - var(--offset)), 60%, 50%);
+      }
+      100% {
+          color: hsl(calc(720 - var(--offset)), 60%, 50%);
+      }
+  }
+
+  .rainbow {
+    --offset: 0;
+    animation: rainbow-link 3500ms linear infinite;
+    font-weight: bold;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  section {
+    width: 100%;
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .right {
+    background: rgba(23, 72, 122, .4);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    box-sizing: content-box;
+  }
+
+  p {
+    padding-left: 10%;
+    font-size: 20px;
+    border: 1px solid greenyellow;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    background: red;
+  }
+
+
+  </style>
+</head>
+<body> 
+  <section>
+    <div class="left">1</div>
+    <div class="right">
+      <p>三个</p>
+      <div class="icon"></div>
+    </div>
+  </section>
+  <h1>
+    <span class="rainbow" style="--offset:   0">T</span>
+    <span class="rainbow" style="--offset:  19">h</span><span
+      class="rainbow" style="--offset:  38">a</span><span class="rainbow" style="--offset:  57">n</span><span
+      class="rainbow" style="--offset:  76">k</span>
+
+    <span class="rainbow" style="--offset:  95">y</span><span class="rainbow" style="--offset: 114">o</span><span
+      class="rainbow" style="--offset: 133">u</span>
+
+    <span class="rainbow" style="--offset: 152">f</span><span class="rainbow" style="--offset: 171">o</span><span
+      class="rainbow" style="--offset: 180">r</span>
+
+    <span class="rainbow" style="--offset: 199">R</span><span class="rainbow" style="--offset: 218">e</span><span
+      class="rainbow" style="--offset: 237">a</span><span class="rainbow" style="--offset: 256">d</span><span
+      class="rainbow" style="--offset: 275">i</span><span class="rainbow" style="--offset: 294">n</span><span
+      class="rainbow" style="--offset: 313">g</span><span class="rainbow" style="--offset: 332">!</span>
+      <!-- Hue(色调)。0(或360)表示红色，120表示绿色，240表示蓝色，也可取其他数值来指定颜色。取值为：0 - 360 -->
+  </h1>
+</body>
