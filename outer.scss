@@ -1,0 +1,7 @@
+
+@use 'tryuse';
+
+p {
+  height: tryuse.b-pow(4, 3) * 1px;
+  color: tryuse.$b-white;
+}
