@@ -1,7 +1,10 @@
-
 @use 'tryuse';
 
-p {
-  height: tryuse.b-pow(4, 3) * 1px;
-  color: tryuse.$b-white;
+
+// p:first-child {
+//   height: pow(4, 3) * 1px;
+// }
+
+p:nth-child(2) {
+  color: tryuse.$white;
 }

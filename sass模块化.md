@@ -124,7 +124,27 @@ p {
 @forward "mixins";
 ```
 
-注意，此时生成的bootstrap.css文件中，是不包含"functions"、"variables"、"mixins"代码的，也不能直接在bootstrap.scss文件中使用这些模块。而是需要在另一个文件中`@import`或者`@use`bootstrap模块，再去使用这些方法。也就是说，bootstrap.scss文件相当于一个传输中转站，把上下游的代码无缝连接起来，但本身并不承载代码。
+注意，此时生成的bootstrap.css文件中，是不包含"functions"、"variables"、"mixins"代码的，也不能直接在bootstrap.scss文件中使用这些模块。而是需要在另一个文件中`@import`或者`@use`bootstrap模块，再去使用这些方法。bootstrap.scss文件类似于一个传输中转站，把上下游的成员变量无缝连接起来。
+
+*注意，直接写在上游模块的样式仍然会被`@forward`进来。见下例*
+
+```css
+/* upstream.scss */
+...
+footer {
+  height: pow(2, 3) * 1px;
+  font-weight: map.get($font-weights, "medium");
+}
+
+/* downstream.scss */
+@forward "upstream.scss";
+
+/* 生成的downstream.css */
+footer {
+  height: 8px;
+  font-weight: 500;
+}
+```
 
 ## 控制命名是否可见
 
@@ -142,22 +162,23 @@ p {
 ```css
 /* material/_index.scss */
 @forward "theme" as theme-*;
+@forward "func" as func-*;
+
 
 /* downstream.scss */
 
 @use 'material' as *;
 
 p {
-  height: b-pow(4, 3) * 1px;
-  color: $b-white;
+  color: $theme-white;
 }
 /* 或者，命名空间从父到子 */
 
-@use 'tryuse';
+@use 'material';
 
 p {
-  height: tryuse.b-pow(4, 3) * 1px;
-  color: tryuse.$b-white;
+  height: material.func-pow(4, 3) * 1px;
+  color: material.$theme-white;
 }
 
 /* 也可以在多合一模块中为theme相关的变量重新定义值 */
@@ -189,8 +210,81 @@ p {
 ```
 因为这些模块被引入的时候需要加上命名空间，因此会大大避免sass函数与css方法的命名冲突。此后，sass新增函数也会更加方便。
 
-### 函数重命名
+### 重命名及移除部分函数
 
 某些函数在内置模块中的命名和全局函数中的命名可能不同。已经拥有了手动命名空间的内置函数已经被移除了前缀。比如`map-get()、change-color()等`，现在重命名为`map.get()，color.change()`。同时，一些容易被混淆的函数名称也被重新命名了，比如`unitless()`现在改为了`math.is-unitless()`，`comparable()`改为了`math.compatible()`。
 
-缺点：整体引入，没有摇树优化。
+color相关的函数，如`lighten()`, `darken()`, `saturate()`, `desaturate()`, `opacify()`, `fade-in()`, `transparentize()`, 和`fade-out()`的行为都非常反直觉，它们对属性的增减是按照静态比例的。因此，这些方法都从新的内置color模块中移除了，取而代之的则是`color.adjust()`函数和`color.scale()`函数。
+
+> color.adjust($color,
+>  $red: null, $green: null, $blue: null,
+>  $hue: null, $saturation: null, $lightness: null,
+>  $alpha: null)
+
+>  color.scale($color,
+>  $red: null, $green: null, $blue: null,
+>  $hue: null, $saturation: null, $lightness: null,
+>  $alpha: null)
+
+*二者的区别在于`color.adjust()`是以固定值来改变颜色的属性而`color.scale()`是动态缩放的。*对`color.adjust()`，$red, $green, 和$blue需要在-255和255之间取值，$hue的值要么以`deg`为单位，要么无单位，$saturation和$lightness需要在-100%和100%之间取值，$alpha需要在-1和1之间取值。对`color.scale()`，取值均需在-100%到100%之间。
+
+下面是一个使用color.adjust的例子
+
+```css
+@use "sass:color";
+
+$c: rgba(144, 233, 12);
+
+p:first-child {
+  background: color.adjust($c, $green: 150);
+  /* 生成的颜色为rgb(144, 255, 12)，注意生成的rgb中各项取值在0-255之间*/
+}
+
+p:nth-child(2) {
+  background: $c;
+}
+```
+
+### `meta.load-css()`
+
+新的模块系统带有一个新的内置mixin，称作`meta.load-css($url，$ with:())`。 该mixin使用给定的$url动态加载模块并包含其CSS（css中的函数，变量和mixin不可用）。 它可以取代嵌套的`@import`，还可以用于动态导入模块。
+
+## `@import`兼容性
+
+sass生态系统不会在一夜之间就迁移到`@use`，所以在当下它会和`@import`共存一段时间。它们会以这样的方式兼容：
+
+- 如果一个文件中包含`@import`，它本身又被别的文件以`@use`的方式引用，那么这个文件的全局命名空间下的所有内容构成一个独立的模块。这个模块的成员使用该文件的命名空间，被正常引用。
+
+- 如果一个文件包含`@use`，它本身又被别的文件以`@import`的方式引用，那么所有暴露在该文件公共API上的东西都被会添加到样式表的全局空间中。*注意，该文件私有API并不会自动暴露出来，即以`@use`被引入的上游文件中的API。*这样，一个库可以给导出的东西特定命名，即使对于`@import`而不是`@use`这个库的用户，特定命名也生效。
+
+为了使库作者能在拥有独立命名空间的基础上，保持他们现存的`@import`向的API，新增了对只可`import`文件的支持。如果一个文件`file`被命名为`file.import.sass`，那么它只可被`@import`使用，并且只需写`@import "file"`。
+
+## 自动迁移
+
+随着新模块系统的发布，sass自动迁移工具也发布了出来。它可以帮助你轻松地将大多数样式表迁移到最新版本。安装后，只需在应用内执行如下命令即可
+
+```shell
+sass-migrator module --migrate-deps <path/to/style.scss>
+```
+
+`--migrate-deps`标志是指需不需要一并迁移那些被引用进来的上游模块。迁移器将自动选取通过Webpack的`node_modules`语法导入的文件，但也可以使用`--load-paths`标志传递显式的加载路径。
+
+如果想知道将要进行的更改而不实际进行更改，可以同时传递`--dry-run`标志和`--verbose`标志，以使迁移器仅打印出将进行的更改，且不会将其保存到磁盘。
+
+如果想要对一个sass仓库进行迁移，可以执行：
+
+```sh
+sass-migrator module --migrate-deps --forward=all <path/to/index.scss>
+```
+`--forward`标志告诉迁移器添加`@forward`规则，以便用户仍然可以通过单个@use加载库定义的所有mixins，变量和函数。如果为了避免名称冲突，给库添加了手动命名空间，则可以通过传递`--remove-prefix`标志删除它。 甚至可以通过传递`--forward=prefixed`来选择仅`@forward`具有前缀的模块成员。
+
+
+## 未来计划
+
+sass团队将会让`@use`和`@import`在未来一段很长的时间内共存，来帮助整个生态流畅地完成迁移。当然，为了简洁、性能和css兼容性，团队最终的目标是完全抛弃掉`@import`。时间线是这么安排的：
+
+- 在`Dart Sass`和`LibSass`都支持模块系统的一年后，或`Dart Sass`支持模块系统的两年后（以较早者为准，最迟于2021年10月1日），我们将降级废弃(*deprecate*)@import以及全局的核心函数，这些核心函数将只能通过sass内置的模块来调用。
+
+- 该弃用生效一年后（最晚于2022年10月1日），我们将完全放弃对@import和大多数全局函数的支持。到时会发布一个大版本的更新。
+
+简而言之，对`@import`的兼容还会支持至少两年，实际上可能接近三年。

@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @function pow($base, $exponent) {
   $result: 1;
   @for $_ from 1 through $exponent {
@@ -8,7 +10,7 @@
 
 $white: #fff;
 
-$font-weights: ("regular": 400, "medium": 500, "bold": 700)
+$font-weights: ("regular": 400, "medium": 500, "bold": 700);
 
 footer {
   height: pow(2, 3) * 1px;

@@ -1,9 +1,9 @@
 footer {
   height: 8px;
+  font-weight: 500;
 }
 
-p {
-  height: 64px;
+p:nth-child(2) {
   color: #fff;
 }
 
