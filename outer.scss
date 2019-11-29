@@ -1,10 +1,6 @@
-@use 'tryuse';
+@use 'tryuse' as t;
+@use 'buttons' as b;
 
-
-// p:first-child {
-//   height: pow(4, 3) * 1px;
-// }
-
-p:nth-child(2) {
-  color: tryuse.$white;
+.my-button {
+  @include b.border;
 }

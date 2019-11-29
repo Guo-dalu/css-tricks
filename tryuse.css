@@ -3,6 +3,10 @@ footer {
   font-weight: 500;
 }
 
+.button--reset, ._button {
+  outline: none;
+}
+
 /*# sourceMappingURL=tryuse.css.map */
 /*# sourceMappingURL=tryuse.css.map */
 

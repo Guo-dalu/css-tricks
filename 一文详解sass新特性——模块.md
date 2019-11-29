@@ -1,9 +1,34 @@
-https://css-tricks.com/introducing-sass-modules/
-http://sass.logdown.com/posts/7858341-the-module-system-is-launched
+[1. 简介](#简介)
 
- and today we're excited to announce that it's available in Dart Sass 1.23.0。sass 1.23.0 compiled with dart2js 2.5.1
+[2. @import的缺点](#@import的缺点)
 
-@import/@extend 的缺点
+[3. 详解模块化](#详解模块化)
+
+[3.1 模块化的核心@use](#模块化的核心@use)
+
+[3.2 给库开发者使用的利器@forward](#给库开发者使用的利器@forward)
+
+[3.3 sass内置模块](#sass内置模块)
+
+[4. 兼容性](#兼容性)
+
+[5. 迁移指南](#迁移指南)
+
+[6. 参考资料](#参考资料)
+
+# 简介
+
+2019年十月一号，sass团队推出了sass的模块化机制，通过新关键词`@use`、`@forward`，变量、mixin和函数从此拥有了命名空间。并且，sass对已有的内置函数进行了归类和整理，分类到了各个内置模块下。
+
+引入模块化机制，让sass向更成熟的阶段迈进了很大的一步。目前sass的各个实现中，仅Dart Sass 1.23.0完全支持这些新特性。sass团队宣称两到三年后才会完全废弃`@import`等旧语法，现在处于新旧语法共存的过渡时期。
+ 
+ ![compatibility](https://feedback.xingshulinimg.com/1574650108097)
+
+sass的模块化机制显然是一个major的提升，那么，如此大费工夫，它能够解决什么痛点呢？让我们先来看看之前的`@import`所带来的问题吧！
+
+# @import的缺点
+
+
 1. 无法知道变量、mixin、函数具体是在哪里定义的，因为a.scss文件中的东西在import了a文件的任何文件中都可用。
 
 2. 多次import会导致重复的css代码，还可能引发奇怪的副作用。因为每次stylesheet被import进来，都会从0开始重新加载。
@@ -14,7 +39,10 @@ http://sass.logdown.com/posts/7858341-the-module-system-is-launched
 
 5. @extend 规则可能会影响到样式中的一切选择器，而不是仅仅是作者所希望的那些。关于extend的使用场景、优点缺点，具体可以看看这篇文章[the-benefits-of-inheritance-via-extend-in-sass](https://www.sitepoint.com/the-benefits-of-inheritance-via-extend-in-sass/)。滥用`@extend`会造成css更加复杂、体积更大，多个语义上不相关的选择器都继承了同一基类。逐一检查每个选择器的css并不现实。只有当所要继承的基类与父类直接相关时，才需要用到@extend。剩下的应当交给css本身的层叠继承规则。
 
-模块系统完全向后兼容。现有功能并没有移除或者退化。模块系统可与@import共存，以使旧代码可以轻松地逐步迁移。sass最终会完全摆脱@import，但那将是很久之后，会留出迁移代码的时间。
+
+
+
+天天写`@import`，没想到它存在的问题还真不少。那么，sass又推出了什么样的功能，能够替代`@import`呢？下面，我们来详细解剖一下sass的模块化机制。首先，就从`@import`的替代者———— `@use`说起。
 
 # `@use`, 模块系统的核心
 
@@ -42,7 +70,7 @@ http://sass.logdown.com/posts/7858341-the-module-system-is-launched
 
 1. 不管使用了多少次样式表，@use都只会引入和执行一次。
 2. 与全局使用相反，@use是有命名空间的，而且只在当前样式表中生效。
-3. 以—或者_开头的命名空间被认为是私有的，不会被引入其他样式表。
+3. 以`—`或者`_`开头的命名空间被认为是私有的，不会被引入其他样式表。
 
 ```scss
 /* buttons.scss */
@@ -58,7 +86,7 @@ $_height: 20px;
 ```
 ![私有命名空间](https://qa-feedback.xingshulinimg.com/1572518233040)
 
-4. 如果一个样式表A包括@extend，那么该扩展起作用的范围只包括它本身和被它引入的上游模块中的样式规则，而不是引入了样式表A的下游模块。如下例：
+4. 如果一个样式表A包括@extend，那么该扩展的作用域仅包括它本身和被它引入的上游模块中的样式规则，而不是引入了样式表A的下游模块。如下例：
 
 ```scss
 // _upstream.scss
@@ -111,11 +139,13 @@ p {
 @use 'bootstrap' with ($paragraph-margin-bottom: 1.5rem)
 ```
 
-这样，在my-style.scss文件中，被引用的bootstrap.scss文件里$paragraph-margin-bottom的值就被设成了1.5rem。`with`语句只允许设置被引入模块中已经被定义的默认变量（即使用了`!default`的变量），因此，可以保护用户免于输入错误。
+这样，在my-style.scss文件中，被引用的bootstrap.scss文件里$paragraph-margin-bottom的值就被设成了1.5rem。`with`语句只允许设置被引入模块中已经被定义的默认变量（即使用了`!default`的变量），这样还可以保护用户免于输入错误。
+
+*但要注意的是，一个模块只能被配置一次，那就是在第一次引入的时候。* sass中的引入顺序很重要，最好在入口文件中按顺序引入需要的模块，这样前一个被引入的模块会在下面的模块被引入之前编译好配置项。
 
 # `@forward`，给库开发者
 
-`@forward`语句可以引入另一个模块的所有变量、mixins，和函数，直接作为当前模块的一部分API暴露出去，而不会真正在当前模块增加代码。这样，库作者可以更好地在不同源文件之间拆分代码。不同于`@use`，`@forward`不会给变量加任何命名空间。
+`@forward`语句可以引入另一个模块的所有变量、mixins，和函数，直接作为当前模块的一部分API暴露出去，而不会在当前模块真的增加代码。这样，库作者可以更好地在不同源文件之间拆分代码。不同于`@use`，`@forward`不会给变量加任何命名空间。
 
 ```scss
 // bootstrap.scss
@@ -153,7 +183,7 @@ footer {
 @forward "functions" hide assert-ascending;
 ```
 
-通过控制`show`和`hide`，可以决定模块中的哪些成员对引入后的模板可见。对隐藏的变量，在下游文件中不可以使用，相对于模块私有成员。
+通过控制`show`和`hide`，可以决定模块中的哪些成员对引入后的模板可见。对隐藏的变量，在下游文件中不可以使用，相当于模块私有成员。
 
 ## 额外前缀
 
@@ -247,7 +277,23 @@ p:nth-child(2) {
 
 ### `meta.load-css()`
 
-新的模块系统带有一个新的内置mixin，称作`meta.load-css($url，$ with:())`。 该mixin使用给定的$url动态加载模块并包含其CSS（css中的函数，变量和mixin不可用）。 它可以取代嵌套的`@import`，还可以用于动态导入模块。
+新的模块系统带有一个新的内置mixin，称作`meta.load-css($url，$ with:())`。 该mixin使用给定的$url动态加载模块并包含其CSS（css中的函数，变量和mixin不可用）。 它类似于`@use`，可以取代嵌套的`@import`，但只会返回编译后的css代码，还可以在代码中动态使用。
+
+```css
+@use 'sass:meta';
+
+@function geturl($theme) {
+  @return $theme + '.scss';
+}
+
+@each $theme in ('dark', 'light') {
+  [data-theme='#{$theme}'] {
+    @include meta.load-css(geturl($theme));
+  }
+}
+```
+
+注意，`load-css`中的url不是真的网络地址，而是一个scss文件的相对路径或者绝对路径，就像传给`@use`的参数一样。
 
 ## `@import`兼容性
 
@@ -288,3 +334,25 @@ sass团队将会让`@use`和`@import`在未来一段很长的时间内共存，�
 - 该弃用生效一年后（最晚于2022年10月1日），我们将完全放弃对@import和大多数全局函数的支持。到时会发布一个大版本的更新。
 
 简而言之，对`@import`的兼容还会支持至少两年，实际上可能接近三年。
+
+# 实际可操作性
+node-sass 和 libSass 均更新到最新版本
+
+![node-sass and libSass](https://feedback.xingshulinimg.com/1574652987267)
+
+Ruby Sass was the original implementation of Sass, but it reached its end of life as of 26 March 2019. It's no longer supported, and Ruby Sass users should migrate to another implementation.
+
+`@use`的使用会引起scss warning `Unknown at rule @use`，但不会在webpack中编译报错，实际被@use引入的代码也不会生效。当然，内置模块上的方法也是不能使用的，使用后会引起编译错误。
+
+仍然可以使用`map-get()`等重命名函数的原名。
+
+文档已经更新。![官网](https://sass-lang.com/)
+
+# 参考资料
+
+1. [sass官网](https://sass-lang.com/)
+2. [sass官宣: the-module-system-is-launched](http://sass.logdown.com/posts/7858341-the-module-system-is-launched)
+3. [introducing-sass-modules](https://css-tricks.com/introducing-sass-modules/)
+4. [the-benefits-of-inheritance-via-extend-in-sass](https://www.sitepoint.com/the-benefits-of-inheritance-via-extend-in-sass/)
+5. [sass占位符文档](https://sass-lang.com/documentation/style-rules/placeholder-selectors)
+6. [为什么要避免使用extend](https://www.sitepoint.com/avoid-sass-extend/)

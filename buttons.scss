@@ -14,5 +14,17 @@ $font-weights: ("regular": 400, "medium": 500, "bold": 700);
 
 footer {
   height: pow(2, 3) * 1px;
-  font-weight: map.get($font-weights, "medium");
+  font-weight: map-get($font-weights, "medium");
+}
+
+.button--reset {
+  outline: none;
+}
+
+@mixin border {
+  border: 1px solid #fff;
+}
+
+._button {
+  @extend .button--reset;
 }
