@@ -1,6 +1,11 @@
-@use 'tryuse' as t;
-@use 'buttons' as b;
+@use 'sass:meta';
 
-.my-button {
-  @include b.border;
+@function geturl($theme) {
+  @return $theme + '.scss';
+}
+
+@each $theme in ('dark', 'light') {
+  [data-theme='#{$theme}'] {
+    @include meta.load-css(geturl($theme));
+  }
 }
