@@ -1,0 +1,61 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: black;
+  color: white;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  & > span {
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.03em;
+  }
+
+  --text: 'His Dark Materials';
+  --high: 80%;
+  --low: 20%;
+  --gap: 0.9rem;
+  --offset: calc(var(--gap) / 2);
+    
+  --clip1: polygon(calc(var(--high) + var(--offset)) 0, 100% 0, 100% 100%, calc(var(--low) + var(--offset)) 100%);
+  --clip2: polygon(calc(var(--high) - var(--offset)) 0, calc(var(--low) - var(--offset)) 100%, 0 100%, 0 0);
+
+  position: relative;
+  color: transparent;
+  font-size: 3rem;
+  line-height: 1;
+  max-width: 30rem;
+  text-transform: uppercase;
+  text-align: center;
+
+  &::before, &::after{
+    content: var(--text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    z-index: -1;   
+  }
+
+  &::after {
+    clip-path: var(--clip1);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    //color: blue;
+  }
+
+  &::before {
+    font-weight: 400;
+    clip-path: var(--clip2);
+    //color: red;
+  }
+}

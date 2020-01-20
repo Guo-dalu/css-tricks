@@ -36,74 +36,74 @@ li {
 .mountain-range .mountain:nth-child(1) {
   width: 0;
   height: 0;
-  margin-top: 49px;
+  margin-top: 32px;
   margin-left: -60%;
-  border-left: 185px solid transparent;
-  border-right: 185px solid transparent;
-  border-bottom: 92.5px solid #75bbff;
+  border-left: 179px solid transparent;
+  border-right: 179px solid transparent;
+  border-bottom: 89.5px solid #75bbff;
 }
 .mountain-range .mountain:nth-child(2) {
   width: 0;
   height: 0;
-  margin-top: 37px;
+  margin-top: 43px;
   margin-left: -60%;
-  border-left: 168px solid transparent;
-  border-right: 168px solid transparent;
-  border-bottom: 84px solid #75bbff;
+  border-left: 184px solid transparent;
+  border-right: 184px solid transparent;
+  border-bottom: 92px solid #75bbff;
 }
 .mountain-range .mountain:nth-child(3) {
   width: 0;
   height: 0;
-  margin-top: 38px;
+  margin-top: 31px;
   margin-left: -60%;
-  border-left: 186px solid transparent;
-  border-right: 186px solid transparent;
-  border-bottom: 93px solid #75bbff;
+  border-left: 194px solid transparent;
+  border-right: 194px solid transparent;
+  border-bottom: 97px solid #75bbff;
 }
 .mountain-range .mountain:nth-child(4) {
   width: 0;
   height: 0;
-  margin-top: 32px;
+  margin-top: 42px;
   margin-left: -60%;
-  border-left: 170px solid transparent;
-  border-right: 170px solid transparent;
-  border-bottom: 85px solid #75bbff;
+  border-left: 174px solid transparent;
+  border-right: 174px solid transparent;
+  border-bottom: 87px solid #75bbff;
 }
 .mountain-range .mountain:nth-child(5) {
   width: 0;
   height: 0;
-  margin-top: 29px;
+  margin-top: 23px;
   margin-left: -60%;
-  border-left: 161px solid transparent;
-  border-right: 161px solid transparent;
-  border-bottom: 80.5px solid #75bbff;
+  border-left: 174px solid transparent;
+  border-right: 174px solid transparent;
+  border-bottom: 87px solid #75bbff;
 }
 .mountain-range .mountain:nth-child(6) {
   width: 0;
   height: 0;
-  margin-top: 24px;
+  margin-top: 21px;
   margin-left: -60%;
-  border-left: 182px solid transparent;
-  border-right: 182px solid transparent;
-  border-bottom: 91px solid #75bbff;
+  border-left: 169px solid transparent;
+  border-right: 169px solid transparent;
+  border-bottom: 84.5px solid #75bbff;
 }
 .mountain-range .mountain:nth-child(7) {
   width: 0;
   height: 0;
-  margin-top: 31px;
+  margin-top: 34px;
   margin-left: -60%;
-  border-left: 151px solid transparent;
-  border-right: 151px solid transparent;
-  border-bottom: 75.5px solid #75bbff;
+  border-left: 177px solid transparent;
+  border-right: 177px solid transparent;
+  border-bottom: 88.5px solid #75bbff;
 }
 .mountain-range .mountain:nth-child(8) {
   width: 0;
   height: 0;
   margin-top: 49px;
   margin-left: -60%;
-  border-left: 200px solid transparent;
-  border-right: 200px solid transparent;
-  border-bottom: 100px solid #75bbff;
+  border-left: 154px solid transparent;
+  border-right: 154px solid transparent;
+  border-bottom: 77px solid #75bbff;
 }
 
 .forest {
@@ -513,32 +513,32 @@ li {
   border-radius: 100%;
 }
 .sparkles .sparkle:nth-child(1) {
-  background-color: #f3ffe4;
-  box-shadow: 0px 0px 10px #f3ffe4;
+  background-color: #fffce6;
+  box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(2) {
-  background-color: #fffce6;
-  box-shadow: 0px 0px 10px #fffce6;
-}
-.sparkles .sparkle:nth-child(3) {
-  background-color: #fffce6;
-  box-shadow: 0px 0px 10px #fffce6;
-}
-.sparkles .sparkle:nth-child(4) {
   background-color: #f3ffe4;
   box-shadow: 0px 0px 10px #f3ffe4;
 }
+.sparkles .sparkle:nth-child(3) {
+  background-color: #f3ffe4;
+  box-shadow: 0px 0px 10px #f3ffe4;
+}
+.sparkles .sparkle:nth-child(4) {
+  background-color: #fffce6;
+  box-shadow: 0px 0px 10px #fffce6;
+}
 .sparkles .sparkle:nth-child(5) {
-  background-color: #ffeefc;
-  box-shadow: 0px 0px 10px #ffeefc;
+  background-color: #f3ffe4;
+  box-shadow: 0px 0px 10px #f3ffe4;
 }
 .sparkles .sparkle:nth-child(6) {
   background-color: #ffeefc;
   box-shadow: 0px 0px 10px #ffeefc;
 }
 .sparkles .sparkle:nth-child(7) {
-  background-color: #f3ffe4;
-  box-shadow: 0px 0px 10px #f3ffe4;
+  background-color: #e9fbff;
+  box-shadow: 0px 0px 10px #e9fbff;
 }
 .sparkles .sparkle:nth-child(8) {
   background-color: #ffeefc;
@@ -553,92 +553,92 @@ li {
   box-shadow: 0px 0px 10px #e9fbff;
 }
 .sparkles .sparkle:nth-child(11) {
-  background-color: #f3ffe4;
-  box-shadow: 0px 0px 10px #f3ffe4;
+  background-color: #ffeefc;
+  box-shadow: 0px 0px 10px #ffeefc;
 }
 .sparkles .sparkle:nth-child(12) {
-  background-color: #e9fbff;
-  box-shadow: 0px 0px 10px #e9fbff;
+  background-color: #f3ffe4;
+  box-shadow: 0px 0px 10px #f3ffe4;
 }
 .sparkles .sparkle:nth-child(13) {
   background-color: #fffce6;
   box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(14) {
-  background-color: #ffeefc;
-  box-shadow: 0px 0px 10px #ffeefc;
+  background-color: #f3ffe4;
+  box-shadow: 0px 0px 10px #f3ffe4;
 }
 .sparkles .sparkle:nth-child(15) {
-  background-color: #e9fbff;
-  box-shadow: 0px 0px 10px #e9fbff;
+  background-color: #f3ffe4;
+  box-shadow: 0px 0px 10px #f3ffe4;
 }
 .sparkles .sparkle:nth-child(16) {
-  background-color: #ffeefc;
-  box-shadow: 0px 0px 10px #ffeefc;
+  background-color: #fffce6;
+  box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(17) {
-  background-color: #e9fbff;
-  box-shadow: 0px 0px 10px #e9fbff;
+  background-color: #fffce6;
+  box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(18) {
   background-color: #fffce6;
   box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(19) {
-  background-color: #f3ffe4;
-  box-shadow: 0px 0px 10px #f3ffe4;
+  background-color: #e9fbff;
+  box-shadow: 0px 0px 10px #e9fbff;
 }
 .sparkles .sparkle:nth-child(20) {
-  background-color: #f3ffe4;
-  box-shadow: 0px 0px 10px #f3ffe4;
+  background-color: #ffeefc;
+  box-shadow: 0px 0px 10px #ffeefc;
 }
 .sparkles .sparkle:nth-child(21) {
-  background-color: #f3ffe4;
-  box-shadow: 0px 0px 10px #f3ffe4;
+  background-color: #ffeefc;
+  box-shadow: 0px 0px 10px #ffeefc;
 }
 .sparkles .sparkle:nth-child(22) {
-  background-color: #ffeefc;
-  box-shadow: 0px 0px 10px #ffeefc;
+  background-color: #e9fbff;
+  box-shadow: 0px 0px 10px #e9fbff;
 }
 .sparkles .sparkle:nth-child(23) {
-  background-color: #ffeefc;
-  box-shadow: 0px 0px 10px #ffeefc;
+  background-color: #e9fbff;
+  box-shadow: 0px 0px 10px #e9fbff;
 }
 .sparkles .sparkle:nth-child(24) {
   background-color: #fffce6;
   box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(25) {
-  background-color: #e9fbff;
-  box-shadow: 0px 0px 10px #e9fbff;
+  background-color: #ffeefc;
+  box-shadow: 0px 0px 10px #ffeefc;
 }
 .sparkles .sparkle:nth-child(26) {
-  background-color: #fffce6;
-  box-shadow: 0px 0px 10px #fffce6;
+  background-color: #f3ffe4;
+  box-shadow: 0px 0px 10px #f3ffe4;
 }
 .sparkles .sparkle:nth-child(27) {
-  background-color: #ffeefc;
-  box-shadow: 0px 0px 10px #ffeefc;
-}
-.sparkles .sparkle:nth-child(28) {
   background-color: #fffce6;
   box-shadow: 0px 0px 10px #fffce6;
 }
-.sparkles .sparkle:nth-child(29) {
-  background-color: #e9fbff;
-  box-shadow: 0px 0px 10px #e9fbff;
+.sparkles .sparkle:nth-child(28) {
+  background-color: #f3ffe4;
+  box-shadow: 0px 0px 10px #f3ffe4;
 }
-.sparkles .sparkle:nth-child(30) {
+.sparkles .sparkle:nth-child(29) {
   background-color: #ffeefc;
   box-shadow: 0px 0px 10px #ffeefc;
+}
+.sparkles .sparkle:nth-child(30) {
+  background-color: #fffce6;
+  box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(31) {
   background-color: #fffce6;
   box-shadow: 0px 0px 10px #fffce6;
 }
 .sparkles .sparkle:nth-child(32) {
-  background-color: #f3ffe4;
-  box-shadow: 0px 0px 10px #f3ffe4;
+  background-color: #fffce6;
+  box-shadow: 0px 0px 10px #fffce6;
 }
 
 .one {

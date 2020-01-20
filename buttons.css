@@ -1,12 +1,8 @@
-footer {
-  height: 8px;
-  font-weight: 500;
+.a--left {
+  color: red;
 }
-
-.button--reset, ._button {
-  outline: none;
+.a--right {
+  color: green;
 }
-
-/*# sourceMappingURL=buttons.css.map */
 
 /*# sourceMappingURL=buttons.css.map */

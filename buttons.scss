@@ -1,30 +1,9 @@
-@use "sass:map";
 
-@function pow($base, $exponent) {
-  $result: 1;
-  @for $_ from 1 through $exponent {
-    $result: $result * $base;
+.a {
+  &--left {
+    color: red;
   }
-  @return $result
-}
-
-$white: #fff;
-
-$font-weights: ("regular": 400, "medium": 500, "bold": 700);
-
-footer {
-  height: pow(2, 3) * 1px;
-  font-weight: map-get($font-weights, "medium");
-}
-
-.button--reset {
-  outline: none;
-}
-
-@mixin border {
-  border: 1px solid #fff;
-}
-
-._button {
-  @extend .button--reset;
+  &--right {
+    color: green;
+  }
 }
